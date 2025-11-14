@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,9 +12,8 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function LoginForm({
   className,
@@ -42,7 +42,7 @@ export function LoginForm({
         throw new Error("Password must be at least 6 characters");
       }
 
-      const response = await authClient.signIn.email(
+      await authClient.signIn.email(
         {
           email,
           password,
@@ -58,7 +58,7 @@ export function LoginForm({
             setError(error?.message || "Failed to sign in");
             setIsLoading(false);
           },
-        }
+        },
       );
     } catch (err) {
       const message =
@@ -68,7 +68,9 @@ export function LoginForm({
     }
   };
 
-  const handleSocialLogin = async (provider: "google" | "apple" | "facebook") => {
+  const handleSocialLogin = async (
+    provider: "google" | "apple" | "facebook",
+  ) => {
     try {
       setError(null);
       setIsLoading(true);

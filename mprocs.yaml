@@ -1,0 +1,5 @@
+procs:
+  next:
+    cmd: ["npx", "next", "dev", "--turbopack"]
+  convex:
+    cmd: ["npx", "convex", "dev"]

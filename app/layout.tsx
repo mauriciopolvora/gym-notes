@@ -8,7 +8,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { getThemeScript } from "@/lib/theme-utils";
-import ConvexClientProvider from "@/providers/convex-client-provider";
+import { ConvexClientProvider } from "@/providers/convex-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 const geistSans = Geist({

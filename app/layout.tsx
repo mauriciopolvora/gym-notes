@@ -7,6 +7,7 @@ import {
   Source_Code_Pro,
 } from "next/font/google";
 import "./globals.css";
+import { getThemeScript } from "@/lib/theme-utils";
 import ConvexClientProvider from "@/providers/convex-client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 
@@ -47,6 +48,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Theme script needs to run before React hydration */}
+        <script dangerouslySetInnerHTML={{ __html: getThemeScript() }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${oxanium.variable} ${jetBrainsMono.variable} ${sourceCodePro.variable} antialiased`}
       >

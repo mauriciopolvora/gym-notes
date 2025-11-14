@@ -1,18 +1,23 @@
 "use client";
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import type * as React from "react";
+import * as React from "react";
+import { applyTheme, THEME_CONFIG } from "@/lib/theme-utils";
 
 export function ThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
+  React.useEffect(() => {
+    applyTheme();
+  }, []);
+
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="light"
+      defaultTheme={THEME_CONFIG.DEFAULT_MODE}
       forcedTheme={undefined}
-      storageKey="gym-notes-mode"
+      storageKey={THEME_CONFIG.MODE_STORAGE_KEY}
       disableTransitionOnChange
       enableSystem={false}
       themes={["light", "dark"]}

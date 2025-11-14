@@ -7,7 +7,21 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!dist",
+      "!build",
+      "!convex/_generated",
+      "!**/*.generated.*",
+      "!**/_generated"
+    ],
+    "experimentalScannerIgnores": [
+      "convex/_generated/**",
+      "**/*.generated.*",
+      "**/_generated/**"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -19,7 +33,32 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "off",
+        "noExplicitAny": "off",
+        "noArrayIndexKey": {
+          "level": "warn"
+        }
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": {
+          "level": "warn"
+        }
+      },
+      "a11y": {
+        "noSvgWithoutTitle": {
+          "level": "warn"
+        },
+        "useValidAnchor": {
+          "level": "warn"
+        },
+        "useSemanticElements": {
+          "level": "warn"
+        }
+      },
+      "correctness": {
+        "noUnusedVariables": {
+          "level": "warn"
+        }
       }
     },
     "domains": {

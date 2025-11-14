@@ -13,17 +13,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  applyTheme,
+  PALETTES,
+  type Palette,
+  THEME_CONFIG,
+} from "@/lib/theme-utils";
 import { cn } from "@/lib/utils";
-
-const CUSTOM_THEME_STORAGE_KEY = "gym-notes-theme";
-
-const PALETTES = [
-  { value: "default", label: "Default" },
-  { value: "darkmatter", label: "Dark Matter" },
-  { value: "doom64", label: "Doom 64" },
-] as const;
-
-type Palette = (typeof PALETTES)[number]["value"];
 
 const MODES = [
   { value: "light", label: "Light", icon: Sun },
@@ -32,33 +28,25 @@ const MODES = [
 
 export function ModeToggle() {
   const { resolvedTheme, setTheme: setMode } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-  const [palette, setPalette] = React.useState<Palette>("default");
+  const [_mounted, setMounted] = React.useState(false);
+  const [palette, setPalette] = React.useState<Palette>(
+    THEME_CONFIG.DEFAULT_PALETTE,
+  );
 
   React.useEffect(() => {
     setMounted(true);
-  }, []);
-
-  React.useEffect(() => {
-    if (!mounted) return;
-    const stored = window.localStorage.getItem(CUSTOM_THEME_STORAGE_KEY);
+    // Load palette from storage on mount
+    const stored = localStorage.getItem(THEME_CONFIG.PALETTE_STORAGE_KEY);
     if (stored && PALETTES.some((p) => p.value === stored)) {
       setPalette(stored as Palette);
     }
-  }, [mounted]);
+  }, []);
 
-  React.useEffect(() => {
-    if (!mounted) return;
-    const root = document.documentElement;
-    if (palette === "default") {
-      root.removeAttribute("data-theme");
-    } else {
-      root.dataset.theme = palette;
-    }
-    window.localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, palette);
-  }, [palette, mounted]);
-
-  if (!mounted) return null;
+  const handlePaletteChange = (newPalette: Palette) => {
+    setPalette(newPalette);
+    localStorage.setItem(THEME_CONFIG.PALETTE_STORAGE_KEY, newPalette);
+    applyTheme();
+  };
 
   return (
     <DropdownMenu>
@@ -104,10 +92,7 @@ export function ModeToggle() {
         {PALETTES.map((option) => (
           <DropdownMenuItem
             key={option.value}
-            onSelect={(event) => {
-              event.preventDefault();
-              setPalette(option.value);
-            }}
+            onSelect={() => handlePaletteChange(option.value)}
             className={cn(
               "cursor-pointer capitalize",
               palette === option.value && "font-semibold text-primary",

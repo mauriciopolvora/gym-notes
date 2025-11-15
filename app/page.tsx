@@ -9,8 +9,8 @@ import { authClient } from "@/lib/auth-client";
 export default function Home() {
   const router = useRouter();
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background text-foreground">
-      <div className="flex flex-col items-center gap-4">
+    <main className="flex min-h-screen items-center justify-center bg-background px-4 text-foreground md:px-6">
+      <div className="flex w-full max-w-sm flex-col items-center gap-4">
         <Unauthenticated>
           <div className="flex flex-col items-center gap-4">
             <p>Logged out</p>
@@ -31,6 +31,9 @@ export default function Home() {
             >
               <Button type="submit">Sign out</Button>
             </form>
+            <Button asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
           </div>
         </Authenticated>
         <AuthLoading>

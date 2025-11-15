@@ -9,7 +9,11 @@
  */
 
 import type * as auth from "../auth.js";
+import type * as exercise_cache from "../exercise_cache.js";
+import type * as exercises from "../exercises.js";
 import type * as http from "../http.js";
+import type * as templates from "../templates.js";
+import type * as workouts from "../workouts.js";
 
 import type {
   ApiFromModules,
@@ -19,7 +23,11 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  exercise_cache: typeof exercise_cache;
+  exercises: typeof exercises;
   http: typeof http;
+  templates: typeof templates;
+  workouts: typeof workouts;
 }>;
 
 /**

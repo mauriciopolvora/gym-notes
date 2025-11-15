@@ -24,8 +24,8 @@ const items = [
     icon: Dumbbell,
   },
   {
-    title: "create new workout",
-    url: "/dashboard/create-workout",
+    title: "create new template",
+    url: "/dashboard/create-template",
     icon: FilePlus,
   },
   {

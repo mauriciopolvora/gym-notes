@@ -43,25 +43,31 @@ export default function WorkoutsPage() {
               </p>
             ) : (
               <ul className="flex flex-col divide-y divide-border">
-                {workouts.map((w) => (
-                  <li key={w.id} className="py-2 text-sm">
-                    <Link
-                      href={`/dashboard/workouts/${w.id}`}
-                      className="flex flex-col rounded-md px-1 py-1 transition-colors hover:bg-accent"
-                    >
-                      <span className="font-medium">
-                        {formatWorkoutTitle(w.startedAt)}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {w.status === "completed"
-                          ? "Completed"
-                          : w.status === "active"
-                            ? "Active"
-                            : "Abandoned"}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+                {workouts.map(
+                  (w: {
+                    id: string;
+                    status: "active" | "completed" | "abandoned";
+                    startedAt: number;
+                  }) => (
+                    <li key={w.id} className="py-2 text-sm">
+                      <Link
+                        href={`/dashboard/workouts/${w.id}`}
+                        className="flex flex-col rounded-md px-1 py-1 transition-colors hover:bg-accent"
+                      >
+                        <span className="font-medium">
+                          {formatWorkoutTitle(w.startedAt)}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {w.status === "completed"
+                            ? "Completed"
+                            : w.status === "active"
+                              ? "Active"
+                              : "Abandoned"}
+                        </span>
+                      </Link>
+                    </li>
+                  ),
+                )}
               </ul>
             )}
           </CardContent>

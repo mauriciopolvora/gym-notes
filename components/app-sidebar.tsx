@@ -1,11 +1,13 @@
 "use client";
 
+import { useQuery } from "convex/react";
 import { Dumbbell, FilePlus, Scroll } from "lucide-react";
 import Link from "next/link";
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -15,6 +17,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { api } from "@/convex/_generated/api";
+import { NavUser } from "./user-sidebar";
 
 // Menu items.
 const items = [
@@ -37,6 +41,7 @@ const items = [
 
 export function AppSidebar() {
   const { setOpenMobile } = useSidebar();
+  const user = useQuery(api.auth.getCurrentUser);
 
   const handleNavigation = () => {
     setOpenMobile(false);
@@ -79,6 +84,17 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        {user && (
+          <NavUser
+            user={{
+              name: user.name ?? "User",
+              email: user.email ?? "",
+              avatar: user.image ?? "",
+            }}
+          />
+        )}
+      </SidebarFooter>
     </Sidebar>
   );
 }

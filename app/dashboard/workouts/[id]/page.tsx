@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { api as generatedApi } from "@/convex/_generated/api";
@@ -219,23 +220,24 @@ function WorkoutSetRow({ set, disabled, onSave }: WorkoutSetRowProps) {
 
   return (
     <div className="flex flex-col gap-2 rounded-md border border-border bg-card/60 p-3 text-sm">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col">
           <span className="font-medium">{set.name}</span>
           <span className="text-xs text-muted-foreground">
             Set #{set.setIndex + 1}
           </span>
         </div>
-        <label className="flex items-center gap-1 text-xs">
-          <input
-            type="checkbox"
-            className="h-3 w-3"
+        <div className="flex items-center gap-2 text-[11px]">
+          <Checkbox
             checked={isCompleted}
-            onChange={(e) => setIsCompleted(e.target.checked)}
+            onCheckedChange={(checked) =>
+              !disabled && setIsCompleted(Boolean(checked))
+            }
             disabled={disabled}
+            className="h-5 w-5"
           />
           <span className="text-muted-foreground">Done</span>
-        </label>
+        </div>
       </div>
       <div className="flex gap-2">
         <div className="flex flex-1 flex-col gap-1">

@@ -13,6 +13,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { api } from "@/convex/_generated/api";
 
@@ -23,7 +30,7 @@ export default function DashboardPage() {
 
   const currentWorkout = useQuery(api.workouts.getCurrentWorkout, {});
   const recentWorkouts = useQuery(api.workouts.listRecentWorkouts, {
-    limit: 5,
+    limit: 4,
   });
   const templates = useQuery(api.templates.listTemplates, {});
   const startWorkoutFromTemplate = useMutation(
@@ -41,6 +48,14 @@ export default function DashboardPage() {
     if (!selectedTemplateId) return;
     const result = await startWorkoutFromTemplate({
       templateId: selectedTemplateId as any,
+    });
+    router.push(`/dashboard/workouts/${result.workoutId}`);
+  }
+
+  async function handleQuickStart(templateId: string) {
+    setSelectedTemplateId(templateId);
+    const result = await startWorkoutFromTemplate({
+      templateId: templateId as any,
     });
     router.push(`/dashboard/workouts/${result.workoutId}`);
   }
@@ -71,26 +86,29 @@ export default function DashboardPage() {
               <CardContent className="flex flex-col gap-3">
                 {templates && (templates as any[]).length > 0 ? (
                   <>
-                    <label className="flex flex-col gap-1 text-sm">
-                      <span className="text-xs font-medium text-muted-foreground">
+                    <div className="flex flex-col gap-1 text-sm">
+                      <span className="text-s font-medium text-muted-foreground">
                         Workout template
                       </span>
-                      <select
-                        value={selectedTemplateId}
-                        onChange={(e) => setSelectedTemplateId(e.target.value)}
-                        className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                      <Select
+                        value={selectedTemplateId || undefined}
+                        onValueChange={(value) => setSelectedTemplateId(value)}
                       >
-                        <option value="">Select a template</option>
-                        {(templates as any[]).map((t: any) => (
-                          <option key={t.id} value={t.id}>
-                            {t.name}{" "}
-                            {t.exercisesCount > 0
-                              ? `(${t.exercisesCount} exercises)`
-                              : ""}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a template" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {(templates as any[]).map((t: any) => (
+                            <SelectItem key={t.id} value={t.id}>
+                              {t.name}{" "}
+                              {t.exercisesCount > 0
+                                ? `(${t.exercisesCount} exercises)`
+                                : ""}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <Button
                       onClick={handleStartWorkout}
                       disabled={!selectedTemplateId}
@@ -98,6 +116,31 @@ export default function DashboardPage() {
                     >
                       Start workout
                     </Button>
+                    {(templates as any[]).length > 0 && (
+                      <div className="flex flex-col gap-1 text-sm">
+                        <span className="text-s font-medium text-muted-foreground">
+                          Quick start
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {(templates as any[]).slice(0, 4).map((t: any) => (
+                            <Button
+                              key={`quick-${t.id}`}
+                              type="button"
+                              variant={
+                                selectedTemplateId === t.id
+                                  ? "default"
+                                  : "outline"
+                              }
+                              size="sm"
+                              className="text-xs"
+                              onClick={() => handleQuickStart(t.id)}
+                            >
+                              {t.name}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <p className="text-sm text-muted-foreground">
@@ -126,13 +169,10 @@ export default function DashboardPage() {
                   <>
                     <ul className="flex flex-col divide-y divide-border">
                       {(recentWorkouts as any[]).map((w: any) => (
-                        <li
-                          key={w.id}
-                          className="flex items-center justify-between py-2 text-sm"
-                        >
+                        <li key={w.id} className="text-sm">
                           <button
                             type="button"
-                            className="flex flex-1 flex-col items-start text-left"
+                            className="flex w-full flex-col items-start rounded-md px-2 py-2 text-left transition-colors hover:bg-accent/80 hover:text-accent-foreground"
                             onClick={() =>
                               router.push(`/dashboard/workouts/${w.id}`)
                             }

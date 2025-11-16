@@ -153,7 +153,7 @@ export default function CreateNewTemplatePage() {
 
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-muted-foreground">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Exercises
                       </span>
                       <Button
@@ -191,7 +191,7 @@ export default function CreateNewTemplatePage() {
                                 })
                               }
                               placeholder="Muscle group"
-                              className="text-xs"
+                              className="text-sm"
                             />
                             <div className="flex gap-2">
                               <Input
@@ -204,7 +204,7 @@ export default function CreateNewTemplatePage() {
                                 type="number"
                                 inputMode="numeric"
                                 min={1}
-                                className="w-20 text-xs"
+                                className="w-20 text-sm"
                                 placeholder="Sets"
                               />
                               <Input
@@ -217,7 +217,7 @@ export default function CreateNewTemplatePage() {
                                 type="number"
                                 inputMode="numeric"
                                 min={1}
-                                className="w-20 text-xs"
+                                className="w-20 text-sm"
                                 placeholder="Reps"
                               />
                               <Input
@@ -230,18 +230,18 @@ export default function CreateNewTemplatePage() {
                                 type="number"
                                 inputMode="decimal"
                                 min={0}
-                                className="w-24 text-xs"
+                                className="w-24 text-sm"
                                 placeholder="Weight"
                               />
                               <Button
                                 type="button"
-                                variant="ghost"
+                                variant="outline"
                                 size="icon"
-                                className="ml-auto h-8 w-8 text-xs"
+                                className="ml-auto h-9 w-9 text-sm"
                                 onClick={() => removeExerciseRow(exercise.id)}
                                 disabled={exercises.length <= 1}
                               >
-                                ×
+                                X
                               </Button>
                             </div>
                           </div>
@@ -272,22 +272,29 @@ export default function CreateNewTemplatePage() {
               <CardContent>
                 {templates && templates.length > 0 ? (
                   <ul className="flex flex-col divide-y divide-border">
-                    {templates.map((t) => (
-                      <li key={t.id} className="py-2 text-sm">
-                        <div className="flex flex-col">
-                          <span className="font-medium">{t.name}</span>
-                          {t.notes && (
-                            <span className="text-xs text-muted-foreground line-clamp-2">
-                              {t.notes}
+                    {templates.map(
+                      (t: {
+                        id: string;
+                        name: string;
+                        notes?: string;
+                        exercisesCount: number;
+                      }) => (
+                        <li key={t.id} className="py-2 text-sm">
+                          <div className="flex flex-col">
+                            <span className="font-medium">{t.name}</span>
+                            {t.notes && (
+                              <span className="text-xs text-muted-foreground line-clamp-2">
+                                {t.notes}
+                              </span>
+                            )}
+                            <span className="mt-1 text-xs text-muted-foreground">
+                              {t.exercisesCount} exercise
+                              {t.exercisesCount === 1 ? "" : "s"}
                             </span>
-                          )}
-                          <span className="mt-1 text-xs text-muted-foreground">
-                            {t.exercisesCount} exercise
-                            {t.exercisesCount === 1 ? "" : "s"}
-                          </span>
-                        </div>
-                      </li>
-                    ))}
+                          </div>
+                        </li>
+                      ),
+                    )}
                   </ul>
                 ) : (
                   <p className="text-sm text-muted-foreground">
@@ -334,4 +341,3 @@ function makeEmptyExerciseRow(): DraftExercise {
     defaultWeight: "",
   };
 }
-

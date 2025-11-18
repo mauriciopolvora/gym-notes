@@ -32,7 +32,7 @@ A workout tracking application for logging exercises, sets, reps, and weights. C
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone git@github.com:mauriciopolvora/gym-notes.git
 cd gym-notes
 ```
 

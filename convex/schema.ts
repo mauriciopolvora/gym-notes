@@ -14,7 +14,7 @@ export default defineSchema({
         targetMuscles: v.array(v.string()),
         defaultSets: v.number(),
         defaultReps: v.number(),
-        defaultWeight: v.number(),
+        defaultWeight: v.optional(v.number()),
       }),
     ),
   }).index("by_user", ["userId"]),

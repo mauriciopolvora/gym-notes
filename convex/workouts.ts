@@ -207,7 +207,7 @@ export const startWorkoutFromTemplate = mutation({
           name: exercise.name,
           setIndex: globalSetIndex,
           reps: exercise.defaultReps,
-          weight: exercise.defaultWeight,
+          weight: exercise.defaultWeight ?? 0,
           rpe: undefined,
           isCompleted: false,
         });

@@ -196,7 +196,7 @@ type WorkoutSetRowProps = {
 
 function WorkoutSetRow({ set, disabled, onSave }: WorkoutSetRowProps) {
   const [reps, setReps] = useState(String(set.reps));
-  const [weight, setWeight] = useState(String(set.weight));
+  const [weight, setWeight] = useState(set.weight === 0 ? "" : String(set.weight));
   const [rpe, setRpe] = useState(set.rpe !== undefined ? String(set.rpe) : "");
   const [isCompleted, setIsCompleted] = useState(set.isCompleted);
   const [saving, setSaving] = useState(false);

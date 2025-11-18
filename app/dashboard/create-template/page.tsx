@@ -22,7 +22,6 @@ type DraftExercise = {
   muscleGroup: string;
   defaultSets: string;
   defaultReps: string;
-  defaultWeight: string;
 };
 
 export default function CreateNewTemplatePage() {
@@ -57,7 +56,6 @@ export default function CreateNewTemplatePage() {
             : [],
           defaultSets: parseInt(ex.defaultSets || "3", 10) || 3,
           defaultReps: parseInt(ex.defaultReps || "8", 10) || 8,
-          defaultWeight: parseFloat(ex.defaultWeight || "0") || 0,
         }));
 
       await createTemplate({
@@ -220,19 +218,6 @@ export default function CreateNewTemplatePage() {
                                 className="w-20 text-sm"
                                 placeholder="Reps"
                               />
-                              <Input
-                                value={exercise.defaultWeight}
-                                onChange={(e) =>
-                                  updateExercise(exercise.id, {
-                                    defaultWeight: e.target.value,
-                                  })
-                                }
-                                type="number"
-                                inputMode="decimal"
-                                min={0}
-                                className="w-24 text-sm"
-                                placeholder="Weight"
-                              />
                               <Button
                                 type="button"
                                 variant="outline"
@@ -315,7 +300,6 @@ export default function CreateNewTemplatePage() {
                       muscleGroup: `${exercise.bodyPart}, ${exercise.target}`,
                       defaultSets: "3",
                       defaultReps: "8",
-                      defaultWeight: "0",
                     },
                   ]);
                 }}
@@ -338,6 +322,5 @@ function makeEmptyExerciseRow(): DraftExercise {
     muscleGroup: "",
     defaultSets: "",
     defaultReps: "",
-    defaultWeight: "",
   };
 }

@@ -56,7 +56,7 @@ export const getTemplate = query({
           targetMuscles: v.array(v.string()),
           defaultSets: v.number(),
           defaultReps: v.number(),
-          defaultWeight: v.number(),
+          defaultWeight: v.optional(v.number()),
         }),
       ),
     }),
@@ -83,7 +83,7 @@ const exerciseValidator = v.object({
   targetMuscles: v.array(v.string()),
   defaultSets: v.number(),
   defaultReps: v.number(),
-  defaultWeight: v.number(),
+  defaultWeight: v.optional(v.number()),
 });
 
 export const createTemplate = mutation({
